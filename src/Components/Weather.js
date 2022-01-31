@@ -27,7 +27,6 @@ const Weather = () => {
   const day = days[date.getDay()];
   const fullDate =
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-  console.log(fullDate);
 
   const buttonHandler = () => {
     console.log(city);
@@ -69,7 +68,6 @@ const Weather = () => {
       )
       .then((response) => {
         setWeather(response.data);
-        console.log(response.data);
         setLoading(false);
       });
   };
