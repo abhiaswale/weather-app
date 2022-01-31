@@ -14,6 +14,20 @@ const Weather = () => {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState();
   const [loading, setLoading] = useState(true);
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const date = new Date();
+  const day = days[date.getDay()];
+  const fullDate =
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+  console.log(fullDate);
 
   const buttonHandler = () => {
     console.log(city);
@@ -83,19 +97,22 @@ const Weather = () => {
   let content;
   if (weather) {
     content = (
-      <div className="py-10 font-Readex flex flex-col justify-center items-center mt-5 w-6/12 rounded-2xl bg-white bg-opacity-40">
+      <div className="py-10  flex flex-col justify-center items-center lg:mt-5 mt-7 lg:w-6/12 w-4/5 rounded-2xl bg-white bg-opacity-40 ">
         <h1 className="text-6xl p-2">{weather.name}</h1>
         <div>{weather.sys.country}</div>
         <div className="text-8xl p-4">{icon}</div>
-        <h1 className="text-3xl">{weather.weather[0].main}</h1>
-        {/* <h1>{weather.weather[0].description}</h1> */}
-        <span className="text-2xl my-2">
+        <div className="text-lg my-2">
+          <span>{day},</span>
+          <span>&nbsp;{fullDate}</span>
+        </div>
+        <h1 className="text-lg my-2">{weather.weather[0].main}</h1>
+        <span className="text-5xl my-2">
           {(weather.main.temp - 273.15).toPrecision(2)}&deg;C
         </span>
-        <span className="text-2xl my-2">
+        <span className="text-xl my-2">
           Humidity : {weather.main.humidity}%
         </span>
-        <div className="flex justify-between items-center my-2">
+        <div className="flex justify-between items-center my-2 text-lg">
           <span className="p-2">
             Min : {(weather.main.temp_min - 273.15).toPrecision(4)}&deg;C
           </span>
@@ -107,10 +124,10 @@ const Weather = () => {
     );
   }
   return (
-    <div>
+    <div className="font-Readex">
       <div className="mt-10">
         <input
-          className="w-4/12 p-2 rounded-2xl text-lg"
+          className="lg:w-2/12 p-2 rounded-2xl text-lg sm:w-4/5"
           type="text"
           onChange={(e) => {
             setCity(e.target.value);
@@ -119,14 +136,17 @@ const Weather = () => {
           placeholder="Enter City"
         />
         <button
-          className="border-2 rounded-2xl
+          className="ml-2 p-2 border-2 rounded-2xl 
         "
           onClick={buttonHandler}
         >
           Search
         </button>
 
-        <button className="border-2 rounded-2xl" onClick={useCurrentLoc}>
+        <button
+          className="lg: ml-2 p-2 border-2 rounded-2xl mt-3 lg:w-auto"
+          onClick={useCurrentLoc}
+        >
           Use Current Location
         </button>
       </div>
