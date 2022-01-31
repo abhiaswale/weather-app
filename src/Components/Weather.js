@@ -29,12 +29,11 @@ const Weather = () => {
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
   const buttonHandler = () => {
-    console.log(city);
     if (city) {
       fetchWeather();
       setCity("");
     } else {
-      console.log("error");
+      alert("City cannot be empty");
     }
   };
   let lat, lon;
@@ -75,20 +74,20 @@ const Weather = () => {
   let icon;
   if (weather) {
     const id = weather.weather[0].id;
-    if (id === 800) {
-      icon = <WiDaySunny />;
-    } else if (id > 800 || id < 804) {
-      icon = <WiDayCloudy />;
-    } else if (id >= 200 || id <= 232) {
+    if (id >= 200 && id <= 232) {
       icon = <WiThunderstorm />;
-    } else if (id >= 300 || id <= 321) {
+    } else if (id >= 300 && id <= 321) {
       icon = <WiRainMix />;
-    } else if (id >= 500 || id <= 521) {
+    } else if (id >= 500 && id <= 521) {
       icon = <WiRain />;
-    } else if (id >= 600 || id <= 622) {
+    } else if (id >= 600 && id <= 622) {
       icon = <WiSnow />;
-    } else if (id >= 701 || id <= 781) {
+    } else if (id >= 701 && id <= 781) {
       icon = <WiWindy />;
+    } else if (id > 800 && id <= 804) {
+      icon = <WiDayCloudy />;
+    } else if (id === 800) {
+      icon = <WiDaySunny />;
     }
   }
 
