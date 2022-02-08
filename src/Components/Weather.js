@@ -148,13 +148,14 @@ const Weather = () => {
       return;
     }
     return (
-      <ul className="lg:w-60 p-2 absolute top-20 lg:left-1/3 left-12 w-56 bg-white">
+      <ul className="lg:w-60 p-2 absolute top-20 lg:left-1/3 left-12 w-64 bg-white">
         {suggest.map((item) => (
           <span className="cursor-pointer">
             <li
               key={item.id}
               onClick={() => {
                 suggestedItem(item.name);
+
                 setSuggest([]);
               }}
             >
