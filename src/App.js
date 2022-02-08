@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <div
         style={{ backgroundImage: `url(${bg})` }}
-        className="bg-cover w-full h-screen overflow-auto"
+        className="bg-cover w-full h-screen overflow-auto "
       >
         <Weather />
       </div>

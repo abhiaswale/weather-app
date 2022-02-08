@@ -10,10 +10,12 @@ import {
   WiWindy,
 } from "weather-icons-react";
 
+import { temp } from "../suggestion";
+
 const Weather = () => {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const days = [
     "Sunday",
     "Monday",
@@ -29,13 +31,16 @@ const Weather = () => {
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
   const buttonHandler = () => {
+    setLoading(true);
     if (city) {
       fetchWeather();
       setCity("");
+      setLoading(false);
     } else {
       alert("City cannot be empty");
     }
   };
+
   let lat, lon;
   const useCurrentLoc = () => {
     navigator.geolocation.getCurrentPosition((ps) => {
@@ -48,14 +53,12 @@ const Weather = () => {
   };
 
   const fetchWeatherUsingCurrentLoc = () => {
-    console.log("test");
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=08a457d2f5f8f080bc6623b63a077dec`
       )
       .then((response) => {
         setWeather(response.data);
-        console.log(response.data);
         setLoading(false);
       });
   };
@@ -120,18 +123,63 @@ const Weather = () => {
       </div>
     );
   }
+
+  //SEARCH SUGGESTION RELATED LOGIC
+  const [suggest, setSuggest] = useState([]);
+
+  const handlerChange = (e) => {
+    setCity(e.target.value);
+    let suggestion = [];
+    console.log(city.length);
+    if (city.length >= 2) {
+      suggestion = temp.filter((cit) =>
+        cit.name.toLowerCase().startsWith(city.toLowerCase())
+      );
+    }
+    console.log(suggestion);
+    setSuggest(suggestion.slice(0, 9));
+  };
+
+  const suggestedItem = (value) => {
+    setCity(value);
+  };
+  const getSuggestions = () => {
+    if (suggest.length === 0) {
+      return;
+    }
+    return (
+      <ul className="lg:w-60 p-2 absolute top-20 lg:left-1/3 left-12 w-56 bg-white">
+        {suggest.map((item) => (
+          <span className="cursor-pointer">
+            <li
+              key={item.id}
+              onClick={() => {
+                suggestedItem(item.name);
+                setSuggest([]);
+              }}
+            >
+              {item.name}
+            </li>
+            <hr />
+          </span>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <div className="font-Readex">
       <div className="mt-10">
         <input
           className="lg:w-2/12 p-2 rounded-2xl text-lg sm:w-4/5"
           type="text"
-          onChange={(e) => {
-            setCity(e.target.value);
-          }}
+          onChange={handlerChange}
           value={city}
           placeholder="Enter City"
         />
+
+        {city && getSuggestions()}
+
         <button
           className="ml-2 p-2 border-2 rounded-2xl 
         "
@@ -150,6 +198,7 @@ const Weather = () => {
 
       <div className="flex justify-center items-center ">
         {!loading && content}
+        {loading && <h1>Loading...</h1>}
       </div>
     </div>
   );
