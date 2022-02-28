@@ -199,7 +199,7 @@ const Weather = () => {
 
       <div className="flex justify-center items-center ">
         {!loading && content}
-        {loading && <h1>Loading...</h1>}
+        {loading && <h1>Loading......</h1>}
       </div>
     </div>
   );
